@@ -1,0 +1,65 @@
+<div class="card">
+  <div class="card-header">
+    <h2 class="card-title">Flight Search</h2>
+  </div>
+
+  <div class="card-body">
+    <form [formRoot]="searchForm" aria-label="Flight Search">
+      <div class="form-group">
+        <label for="from">From:</label>
+        <input id="from" [formField]="searchForm.from" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="to">To:</label>
+        <input id="to" [formField]="searchForm.to" class="form-control" />
+      </div>
+      <div class="form-group">
+        <button
+          type="submit"
+          [disabled]="!searchModel().from.trim() || !searchModel().to.trim()"
+          class="btn btn-default"
+        >
+          Search
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+@if (flightsResource.isLoading()) {
+  <p role="status">Loading flights…</p>
+}
+@if (flightsResource.error()) {
+  <div class="alert alert-danger" role="alert">Flights could not be loaded. Please try again.</div>
+  <button type="button" class="btn btn-default" (click)="flightsResource.reload()">Retry</button>
+}
+<label><input type="checkbox" [formField]="filterForm.onlyDelayed" /> Only delayed flights</label>
+@if (flightsResource.hasValue()) {
+  <div class="row">
+    @for (
+      flight of flightsResource.value() | statusFilter: filterModel().onlyDelayed;
+      track flight.id
+    ) {
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+        <app-flight-card
+          [item]="flight"
+          [selected]="basket()[flight.id] ?? false"
+          (selectedChange)="updateBasket(flight.id, $event)"
+          (delayTrigger)="delay($event)"
+          (editTrigger)="edit($event)"
+        >
+          <h3 class="content-title">Premium Flight</h3>
+          <p>Details about my favorite Flight.</p>
+        </app-flight-card>
+      </div>
+    }
+  </div>
+}
+@if (
+  flightsResource.status() === 'resolved' &&
+  flightsResource.hasValue() &&
+  !flightsResource.value().length
+) {
+  <p>No flights found.</p>
+}
+<p>Selected flights: {{ selectedCount() }}</p>

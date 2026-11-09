@@ -1,0 +1,35 @@
+<div
+  class="card"
+  [class.selected]="selected()"
+  [attr.aria-labelledby]="'flight-title-' + item().id"
+>
+  <div class="card-header">
+    <h2 class="card-title" [id]="'flight-title-' + item().id">
+      {{ item().from | city: 'short' }} - {{ item().to | city: 'long' }}
+    </h2>
+    <ng-content select=".content-title" />
+  </div>
+  <div class="card-body">
+    <p>Flight No.: {{ item().id }}</p>
+    @if (showDetails()) {
+      <p>Date: {{ item().date | date: 'dd.MM.yyyy HH:mm' }}</p>
+      <p [style.color]="item().delayed | statusColor">
+        Delayed: {{ item().delayed ? 'Yes' : 'No' }}
+      </p>
+    }
+    <ng-content />
+    <button
+      type="button"
+      class="btn btn-default"
+      (click)="toggleSelection()"
+      [attr.aria-pressed]="selected()"
+    >
+      {{ selected() ? 'Remove' : 'Select' }}
+    </button>
+    <button type="button" class="btn btn-default" (click)="delayTrigger.emit(item())">
+      Delay 5 minutes
+    </button>
+    <button type="button" class="btn btn-default" (click)="editTrigger.emit(item())">Edit</button>
+    <app-status-toggle [(status)]="showDetails" />
+  </div>
+</div>

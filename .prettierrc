@@ -8,6 +8,5 @@
         "parser": "angular"
       }
     }
-  ],
-  "arrowParens": "avoid"
+  ]
 }

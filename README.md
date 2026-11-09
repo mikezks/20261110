@@ -12,13 +12,19 @@ Use Node.js 24.19 or a compatible version supported by Angular 22. Install the d
 
 ## Web essentials
 
-The HTML, CSS and JavaScript exercises use `apps/web-essentials`.
+The HTML, CSS, JavaScript and TypeScript exercises use `apps/web-essentials`.
 
 ```bash
 npm run start:web-essentials
 ```
 
 Open [http://localhost:4300](http://localhost:4300). The page reloads when you save a file. Stop the server with Ctrl+C.
+
+During the TypeScript lab, check types separately from the development server:
+
+```bash
+npm run typecheck:web-essentials
+```
 
 The Angular application has its own development server, described below.
 
@@ -27,7 +33,7 @@ The Angular application has its own development server, described below.
 To start a local development server, run:
 
 ```bash
-ng serve
+npm start
 ```
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
@@ -37,13 +43,13 @@ Once the server is running, open your browser and navigate to `http://localhost:
 Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
 
 ```bash
-ng generate component component-name
+npx ng generate component component-name --project=flight42
 ```
 
 For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
 
 ```bash
-ng generate --help
+npx ng generate --help
 ```
 
 ## Building
@@ -51,7 +57,7 @@ ng generate --help
 To build the project run:
 
 ```bash
-ng build
+npm run build
 ```
 
 This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
@@ -61,7 +67,7 @@ This will compile your project and store the build artifacts in the `dist/` dire
 To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
 
 ```bash
-ng test
+npm test
 ```
 
 ## Running end-to-end tests

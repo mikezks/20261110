@@ -1,5 +1,5 @@
 import { StatusFilterPipe } from './status-filter-pipe';
-import { Flight } from '../../model/flight';
+import { Flight } from '../../booking/model/flight';
 
 describe('StatusFilterPipe', () => {
   it('filters without mutating the source or losing entry references', () => {
