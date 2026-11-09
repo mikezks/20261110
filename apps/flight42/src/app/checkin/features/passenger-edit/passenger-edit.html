@@ -31,6 +31,7 @@
           <input id="passenger-passengerStatus" type="text" class="form-control" [formField]="editForm.passengerStatus" />
         </div>
 
+        <app-address-form [address]="editForm.address" />
         <button type="submit" class="btn btn-default" [disabled]="editForm().invalid() || editForm().submitting()">Save</button>
       </form>
     }

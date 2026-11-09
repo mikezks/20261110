@@ -1,0 +1,51 @@
+<fieldset>
+  <legend>Address</legend>
+  <div class="form-group">
+    <label for="address-street">Street</label>
+    <input id="address-street" [formField]="address().street"
+      class="form-control" aria-describedby="address-street-errors" />
+    <div id="address-street-errors" aria-live="polite">
+      @if (address().street().touched()) {
+        @for (error of address().street().errors(); track error.kind) {
+          <p class="field-error">{{ error.message }}</p>
+        }
+      }
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="address-postal-code">Postal code</label>
+    <input id="address-postal-code" [formField]="address().postalCode"
+      class="form-control" aria-describedby="address-postal-code-errors" />
+    <div id="address-postal-code-errors" aria-live="polite">
+      @if (address().postalCode().touched()) {
+        @for (error of address().postalCode().errors(); track error.kind) {
+          <p class="field-error">{{ error.message }}</p>
+        }
+      }
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="address-city">City</label>
+    <input id="address-city" [formField]="address().city"
+      class="form-control" aria-describedby="address-city-errors" />
+    <div id="address-city-errors" aria-live="polite">
+      @if (address().city().touched()) {
+        @for (error of address().city().errors(); track error.kind) {
+          <p class="field-error">{{ error.message }}</p>
+        }
+      }
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="address-country">Country</label>
+    <input id="address-country" [formField]="address().country"
+      class="form-control" aria-describedby="address-country-errors" />
+    <div id="address-country-errors" aria-live="polite">
+      @if (address().country().touched()) {
+        @for (error of address().country().errors(); track error.kind) {
+          <p class="field-error">{{ error.message }}</p>
+        }
+      }
+    </div>
+  </div>
+</fieldset>
