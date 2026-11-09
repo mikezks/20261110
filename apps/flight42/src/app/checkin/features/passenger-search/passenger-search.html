@@ -1,0 +1,41 @@
+<div class="card">
+  <div class="card-header"><h2 class="card-title">Passenger Search</h2></div>
+  <div class="card-body">
+    <form [formRoot]="searchForm" aria-label="Passenger Search">
+      <div class="form-group">
+        <label for="passenger-firstname">First name</label>
+        <input id="passenger-firstname" [formField]="searchForm.firstname" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="passenger-lastname">Last name</label>
+        <input id="passenger-lastname" [formField]="searchForm.lastname" class="form-control" />
+      </div>
+      <button type="submit" class="btn btn-default" [disabled]="!searchModel().firstname.trim() && !searchModel().lastname.trim()">Search</button>
+    </form>
+  </div>
+</div>
+@if (passengers.isLoading()) { <p role="status">Loading passengers…</p> }
+@if (passengers.error()) {
+  <p class="alert alert-danger" role="alert">Passengers could not be loaded.</p>
+  <button type="button" class="btn btn-default" (click)="passengers.reload()">Retry</button>
+}
+@if (passengers.hasValue() && passengers.value().length) {
+  <div class="card"><div class="card-body table-responsive">
+    <table class="table table-condensed">
+      <thead><tr><th>ID</th><th>First name</th><th>Last name</th><th>Bonus miles</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody>
+        @for (passenger of passengers.value(); track passenger.id) {
+          <tr [class.selected]="selectedId() === passenger.id">
+            <td>{{ passenger.id }}</td><td>{{ passenger.firstName }}</td><td>{{ passenger.name }}</td>
+            <td>{{ passenger.bonusMiles }}</td><td>{{ passenger.passengerStatus }}</td>
+            <td>
+              <button type="button" class="btn btn-info btn-sm" [attr.aria-pressed]="selectedId() === passenger.id" (click)="select(passenger)">{{ selectedId() === passenger.id ? 'Remove' : 'Select' }}</button>
+              <a class="btn btn-default btn-sm" [routerLink]="['../edit', passenger.id]">Edit</a>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div></div>
+}
+@if (passengers.status() === 'resolved' && passengers.hasValue() && !passengers.value().length) { <p>No passengers found.</p> }
