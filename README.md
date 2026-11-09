@@ -1,6 +1,26 @@
 # AngularEssentials
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.2.1.
+- [Web essentials](#web-essentials)
+- [Development server](#development-server)
+- [Code scaffolding](#code-scaffolding)
+- [Building](#building)
+- [Running unit tests](#running-unit-tests)
+- [Running end-to-end tests](#running-end-to-end-tests)
+- [Additional Resources](#additional-resources)
+
+Use Node.js 24.19 or a compatible version supported by Angular 22. Install the dependencies from the repository root with `npm i`.
+
+## Web essentials
+
+The HTML, CSS and JavaScript exercises use `apps/web-essentials`.
+
+```bash
+npm run start:web-essentials
+```
+
+Open [http://localhost:4300](http://localhost:4300). The page reloads when you save a file. Stop the server with Ctrl+C.
+
+The Angular application has its own development server, described below.
 
 ## Development server
 

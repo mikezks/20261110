@@ -6,7 +6,7 @@ describe('Workshop shell', () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
     const element: HTMLElement = fixture.nativeElement;
-    expect(element.querySelector('h1')?.textContent).toContain('Hello World!');
+    expect(element.querySelector('[role=main] h1')?.textContent).toContain('Hello World!');
     expect(element.querySelector('[role=main]')).not.toBeNull();
   });
 });

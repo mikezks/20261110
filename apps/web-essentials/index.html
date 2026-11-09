@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- UTF-8 supports international characters. -->
+    <meta charset="UTF-8" />
+    <!-- Match the page width to the device width. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- A short description of this page. -->
+    <meta name="description" content="Add flights to your personal flight list." />
+    <title>Flights</title>
+    <!-- Use the local illustration as the browser-tab icon. -->
+    <link rel="icon" type="image/svg+xml" href="./aircraft.svg" />
+  </head>
+  <body>
+    <main>
+      <h1>Flights</h1>
+      <p>Keep your next flights in one place.</p>
+      <img src="./aircraft.svg" alt="An airplane" width="160" height="80" />
+
+      <section>
+        <h2>Travel notes</h2>
+        <div class="cards">
+          <div class="info-card">
+            <h3>Before you fly</h3>
+            <ul>
+              <li>Check your flight number.</li>
+              <li>Check your departure airport.</li>
+            </ul>
+          </div>
+          <!-- Add another information card here. -->
+        </div>
+      </section>
+
+      <section id="add-flight" class="panel">
+        <h2>Add a flight</h2>
+        <form id="flight-form">
+          <div class="field">
+            <label for="flight-number">Flight number</label>
+            <input id="flight-number" name="flightNumber" type="text" />
+          </div>
+          <!-- Add the From and To fields here. -->
+          <button type="button">Save</button>
+        </form>
+      </section>
+
+      <section class="panel">
+        <h2>Flights</h2>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Flight number</th>
+              <th scope="col">From</th>
+              <th scope="col">To</th>
+            </tr>
+          </thead>
+          <tbody id="flight-rows">
+            <tr>
+              <td>AB101</td>
+              <td>Graz</td>
+              <td>Hamburg</td>
+            </tr>
+            <!-- Add another sample flight here. -->
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </body>
+</html>
