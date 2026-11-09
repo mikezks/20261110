@@ -1,3 +1,6 @@
+import { CityPipe } from '../shared/pipes/city-pipe';
+import { StatusColorPipe } from '../shared/pipes/status-color-pipe';
+import { StatusFilterPipe } from '../shared/pipes/status-filter-pipe';
 import { firstValueFrom } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { FlightService } from './flight-service';
@@ -7,11 +10,13 @@ import { Flight, FlightFilter, initialFlight } from '../model/flight';
 
 @Component({
   selector: 'app-flight-search',
-  imports: [DatePipe, FormField, FormRoot],
+  imports: [DatePipe, FormField, FormRoot, CityPipe, StatusColorPipe, StatusFilterPipe],
   templateUrl: './flight-search.html',
   styleUrl: './flight-search.scss',
 })
 export class FlightSearch {
+  protected readonly filterModel = signal({ onlyDelayed: false });
+  protected readonly filterForm = form(this.filterModel);
   protected readonly searchModel = signal({ from: 'Hamburg', to: 'Graz' });
   protected readonly searchForm = form(this.searchModel, {
     submission: { action: async () => this.search() },

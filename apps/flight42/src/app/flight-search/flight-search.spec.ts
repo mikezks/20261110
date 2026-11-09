@@ -61,6 +61,27 @@ describe('Flight search', () => {
     await fixture.whenStable();
   });
 
+  it('filters locally and restores rows without requesting flights again', async () => {
+    const fixture = TestBed.createComponent(FlightSearch);
+    (fixture.nativeElement as HTMLElement).setAttribute('data-testid', 'intro-search');
+    await fixture.whenStable();
+    const screen = page.getByTestId('intro-search');
+    await screen.getByRole('button', { name: 'Search', exact: true }).click();
+    const request = await vi.waitFor(() => http.expectOne(req => req.method === 'GET'));
+    request.flush([flight, { ...flight, id: 23, delayed: true }]);
+    await fixture.whenStable();
+    const rows = () => (fixture.nativeElement as HTMLElement).querySelectorAll('tbody tr');
+    expect(rows().length).toBe(2);
+    await screen.getByLabelText('Only delayed', { exact: true }).click();
+    await fixture.whenStable();
+    expect(rows().length).toBe(1);
+    expect(rows()[0].textContent).toContain('23');
+    http.expectNone(() => true);
+    await screen.getByLabelText('Only delayed', { exact: true }).click();
+    await fixture.whenStable();
+    expect(rows().length).toBe(2);
+  });
+
   it('edits a copy and discards unsaved changes when deselected', async () => {
     const { fixture, screen } = await search();
     await screen.getByRole('button', { name: 'select', exact: true }).click();
@@ -68,7 +89,7 @@ describe('Flight search', () => {
     await editor.getByLabelText('From:', { exact: true }).fill('Vienna');
     await editor.getByLabelText('Delayed', { exact: true }).click();
     await fixture.whenStable();
-    await expect.element(screen.getByRole('cell', { name: 'Hamburg', exact: true })).toBeVisible();
+    await expect.element(screen.getByRole('cell', { name: 'HAM', exact: true })).toBeVisible();
     http.expectNone(() => true);
     await screen.getByRole('button', { name: 'remove', exact: true }).click();
     expect(
@@ -103,7 +124,7 @@ describe('Flight search', () => {
     await expect
       .element(screen.getByRole('button', { name: 'remove', exact: true }))
       .toBeDisabled();
-    await expect.element(screen.getByRole('cell', { name: 'Hamburg', exact: true })).toBeVisible();
+    await expect.element(screen.getByRole('cell', { name: 'HAM', exact: true })).toBeVisible();
     const saved = { ...flight, from: 'Vienna', date: '2026-10-06T12:00:00Z' };
     request.flush(saved);
     await fixture.whenStable();
@@ -128,13 +149,13 @@ describe('Flight search', () => {
       .element(screen.getByRole('alert'))
       .toHaveTextContent('Error updating the flight. Please try again.');
     await expect.element(editor.getByLabelText('To:', { exact: true })).toHaveValue('Paris');
-    await expect.element(screen.getByRole('cell', { name: 'Graz', exact: true })).toBeVisible();
+    await expect.element(screen.getByRole('cell', { name: 'Graz (GRZ)', exact: true })).toBeVisible();
     await editor.getByRole('button', { name: 'Save', exact: true }).click();
     const retry = await vi.waitFor(() => http.expectOne(req => req.method === 'POST'));
     expect(retry.request.body).toEqual({ ...flight, to: 'Paris' });
     retry.flush({ ...flight, to: 'Paris' });
     await fixture.whenStable();
-    await expect.element(screen.getByRole('cell', { name: 'Paris', exact: true })).toBeVisible();
+    await expect.element(screen.getByRole('cell', { name: 'Charles de Gaulle Airport', exact: true })).toBeVisible();
     expect((fixture.nativeElement as HTMLElement).querySelector('[role="alert"]')).toBeNull();
   });
 });
