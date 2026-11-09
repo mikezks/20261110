@@ -51,4 +51,23 @@ describe('Passenger editor', () => {
     expect(harness.routeNativeElement?.querySelector<HTMLInputElement>('#passenger-firstName')?.value).toBe('Alan');
     http.verify();
   });
+  it('propagates required and custom last-name errors to Save', async () => {
+    const http = TestBed.inject(HttpTestingController);
+    const harness = await RouterTestingHarness.create();
+    const navigation = harness.navigateByUrl('/checkin/passenger/edit/7', PassengerEdit);
+    (await vi.waitFor(() => http.expectOne(req => req.params.get('id') === '7'))).flush({ ...passenger });
+    await navigation; await harness.fixture.whenStable();
+    const root = harness.routeNativeElement!;
+    const name = root.querySelector<HTMLInputElement>('#passenger-name')!;
+    const save = root.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    for (const [value, invalid] of [['', true], ['Jones', true], ['smith', true], ['Smith', false], ['Mustermann', false]] as const) {
+      name.value = value; name.dispatchEvent(new Event('input'));
+      await harness.fixture.whenStable();
+      expect(save.disabled).toBe(invalid);
+      if (value === '') expect(root.textContent).toContain('Please enter a last name.');
+      if (value === 'Jones') expect(root.textContent).toContain('The entered last name is not allowed.');
+    }
+    http.verify();
+  });
+
 });

@@ -1,12 +1,36 @@
-import { Component, effect, inject, input, numberAttribute } from '@angular/core';
-import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { Component, inject, input, linkedSignal, numberAttribute } from '@angular/core';
+import { FormField, FormRoot, form, required, schema, SchemaPath, validate } from '@angular/forms/signals';
 import { RouterLink } from '@angular/router';
 import { PassengerService } from '../../data-access/passenger-service';
-import { validatePassengerStatus } from '../../model/passenger-status-validator';
+import { initialPassenger, Passenger } from '../../model/passenger';
+
+export function validateLastname(
+  field: SchemaPath<string>,
+  allowedLastnames: string[],
+  message: string,
+): void {
+  validate(field, ({ value }) =>
+    allowedLastnames.includes(value())
+      ? undefined
+      : {
+          kind: 'forbiddenLastname',
+          message: message + ' Allowed last names: ' + allowedLastnames.join(', '),
+        },
+  );
+}
+
+export const passengerSchema = schema<Passenger>((path) => {
+  required(path.name, { message: 'Please enter a last name.' });
+  validateLastname(
+    path.name,
+    ['Mustermann', 'Smith'],
+    'The entered last name is not allowed.',
+  );
+});
 
 @Component({
   selector: 'app-passenger-edit',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [RouterLink, FormField, FormRoot],
   templateUrl: './passenger-edit.html',
   styleUrl: './passenger-edit.scss',
 })
@@ -14,20 +38,18 @@ export class PassengerEdit {
   private readonly passengerService = inject(PassengerService);
   readonly id = input(0, { transform: numberAttribute });
   protected readonly passengerResource = this.passengerService.findByIdAsResource(this.id);
-  protected readonly editForm = inject(NonNullableFormBuilder).group({
-    id: [0], firstName: [''], name: [''], bonusMiles: [0],
-    passengerStatus: ['', validatePassengerStatus(['A', 'B', 'C'])],
+
+  private readonly passenger = linkedSignal<Passenger>(() =>
+    this.passengerResource.hasValue()
+      ? { ...this.passengerResource.value() }
+      : { ...initialPassenger },
+  );
+
+  protected readonly editForm = form(this.passenger, passengerSchema, {
+    submission: { action: async () => this.save() },
   });
 
-  constructor() {
-    effect(() => {
-      if (this.passengerResource.hasValue()) {
-        this.editForm.reset({ ...this.passengerResource.value() });
-      }
-    });
-  }
-
   protected save(): void {
-    if (this.editForm.valid) console.log(this.editForm.getRawValue());
+    console.log(this.editForm().value());
   }
 }
