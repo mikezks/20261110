@@ -15,15 +15,15 @@
   </div>
 
   <ul class="nav">
-    <li>
-      <a aria-disabled="true">
+    <li routerLinkActive="active">
+      <a routerLink="/home" routerLinkActive="active" ariaCurrentWhenActive="page">
         <i class="icon nc-icon icon-home nc-bank" aria-hidden="true"></i>
         <p>Home</p>
       </a>
     </li>
 
-    <li class="active">
-      <a aria-disabled="true">
+    <li routerLinkActive="active">
+      <a routerLink="/booking/flight-search" routerLinkActive="active" ariaCurrentWhenActive="page">
         <i class="icon nc-icon icon-flight nc-send" aria-hidden="true"></i>
         <p>Flights</p>
       </a>
@@ -33,6 +33,12 @@
       <a aria-disabled="true">
         <i class="icon nc-icon icon-passenger nc-single-02" aria-hidden="true"></i>
         <p>Passengers</p>
+      </a>
+    </li>
+    <li routerLinkActive="active">
+      <a routerLink="/about" routerLinkActive="active" ariaCurrentWhenActive="page">
+        <i class="nc-icon nc-alert-circle-i" aria-hidden="true"></i>
+        <p>About</p>
       </a>
     </li>
   </ul>

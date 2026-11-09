@@ -1,3 +1,4 @@
+import { provideRouter } from '@angular/router';
 import { TestBed } from '@angular/core/testing';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { page } from 'vitest/browser';
@@ -5,7 +6,7 @@ import { FlightSearch } from './flight-search';
 
 describe('FlightSearch', () => {
   it('creates the component', async () => {
-    TestBed.configureTestingModule({ providers: [provideHttpClientTesting()] });
+    TestBed.configureTestingModule({ providers: [provideHttpClientTesting(), provideRouter([])] });
     const fixture = TestBed.createComponent(FlightSearch);
 
     await fixture.whenStable();
@@ -13,7 +14,7 @@ describe('FlightSearch', () => {
   });
 
   it('keeps formatting, filtering and card events after extracting components', async () => {
-    TestBed.configureTestingModule({ providers: [provideHttpClientTesting()] });
+    TestBed.configureTestingModule({ providers: [provideHttpClientTesting(), provideRouter([])] });
     const http = TestBed.inject(HttpTestingController);
     const fixture = TestBed.createComponent(FlightSearch);
     (fixture.nativeElement as HTMLElement).setAttribute('data-testid', 'flight-search');

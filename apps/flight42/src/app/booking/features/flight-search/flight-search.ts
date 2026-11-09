@@ -1,6 +1,5 @@
 import { FormField, FormRoot, form } from '@angular/forms/signals';
-import { MatDialog } from '@angular/material/dialog';
-import { FlightEditDialog } from '../../ui/flight-edit-dialog/flight-edit-dialog';
+import { Router } from '@angular/router';
 import { StatusFilterPipe } from '../../../shared/pipes/status-filter-pipe';
 import { FlightCard } from '../../ui/flight-card/flight-card';
 import { FlightService } from '../../data-access/flight-service';
@@ -29,7 +28,7 @@ export class FlightSearch {
     () => Object.values(this.basket()).filter(Boolean).length,
   );
 
-  private readonly dialog = inject(MatDialog);
+  private readonly router = inject(Router);
   private readonly flightService = inject(FlightService);
   protected readonly flightsResource = this.flightService.createSearchResource(this.query);
 
@@ -46,16 +45,7 @@ export class FlightSearch {
   }
 
   protected edit(flight: Flight): void {
-    this.dialog
-      .open<FlightEditDialog, Flight, Flight>(FlightEditDialog, {
-        data: flight,
-        width: '540px',
-        maxWidth: '95vw',
-      })
-      .afterClosed()
-      .subscribe((saved) => {
-        if (saved) this.flightsResource.reload();
-      });
+    void this.router.navigate(['/booking/flight-edit', flight.id]);
   }
 
   protected updateBasket(id: number, selected: boolean): void {

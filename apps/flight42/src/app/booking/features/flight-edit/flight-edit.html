@@ -1,3 +1,16 @@
+@if (id() > 0) {
+  <div class="card-header"><h2 class="card-title">Flight Edit</h2></div>
+  @if (flightResource.isLoading()) { <p role="status">Loading flight…</p> }
+  @if (flightResource.error()) {
+    <div class="card-body">
+      <p class="alert alert-danger" role="alert">The flight could not be loaded.</p>
+      <button type="button" class="btn btn-default" (click)="flightResource.reload()">Retry</button>
+    </div>
+  }
+}
+@if (!id() || flightResource.hasValue()) {
+  <div class="card-body">
+    @if (savedMessage()) { <p role="status">{{ savedMessage() }}</p> }
 <form [formRoot]="editForm">
   <p>Flight No.: {{ flight().id }}</p>
   <div class="form-group">
@@ -58,6 +71,7 @@
   >
     {{ editForm().submitting() ? 'Saving…' : 'Save' }}
   </button>
+  @if (!id()) {
   <button
     type="button"
     class="btn btn-default"
@@ -66,4 +80,10 @@
   >
     Cancel
   </button>
+  }
 </form>
+  </div>
+}
+@if (id() > 0) {
+  <div class="card-body"><a class="btn btn-default" routerLink="/booking/flight-search">Back to search</a></div>
+}

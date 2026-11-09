@@ -20,6 +20,12 @@ export class FlightService {
     );
   }
 
+  findByIdAsResource(id: Signal<number>) {
+    return httpResource<Flight>(() =>
+      id() > 0 ? { url: `${this.config.baseUrl}/flight`, params: { id: id() } } : undefined,
+    );
+  }
+
   save(flight: Flight): Observable<Flight> {
     // The workshop API uses POST for both new and existing flights.
     return this.http.post<Flight>(`${this.config.baseUrl}/flight`, flight);
