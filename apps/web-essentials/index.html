@@ -14,7 +14,7 @@
   <body>
     <main>
       <h1>Flights</h1>
-      <p>Keep your next flights in one place.</p>
+      <p>Add your flights and keep your travel plans in one place.</p>
       <img src="./aircraft.svg" alt="An airplane" width="160" height="80" />
 
       <section>
@@ -27,7 +27,11 @@
               <li>Check your departure airport.</li>
             </ul>
           </div>
-          <!-- Add another information card here. -->
+          <div class="info-card">
+            <h3>Your next flight</h3>
+            <p>Add the flight number and its departure and arrival cities.</p>
+            <a href="#add-flight">Add a flight</a>
+          </div>
         </div>
       </section>
 
@@ -38,7 +42,14 @@
             <label for="flight-number">Flight number</label>
             <input id="flight-number" name="flightNumber" type="text" />
           </div>
-          <!-- Add the From and To fields here. -->
+          <div class="field">
+            <label for="from">From</label>
+            <input id="from" name="from" type="text" />
+          </div>
+          <div class="field">
+            <label for="to">To</label>
+            <input id="to" name="to" type="text" />
+          </div>
           <button type="button">Save</button>
         </form>
       </section>
@@ -59,7 +70,11 @@
               <td>Graz</td>
               <td>Hamburg</td>
             </tr>
-            <!-- Add another sample flight here. -->
+            <tr>
+              <td>AB202</td>
+              <td>Vienna</td>
+              <td>Paris</td>
+            </tr>
           </tbody>
         </table>
       </section>
