@@ -3,7 +3,7 @@
     <h2 class="card-title">Flight Search</h2>
   </div>
   <div class="card-body">
-    <form>
+    <form [formRoot]="searchForm">
       <div class="form-group">
         <label for="from">From:</label>
         <input [formField]="searchForm.from" id="from" type="text" class="form-control">
@@ -12,9 +12,9 @@
         <label for="to">To:</label>
         <input [formField]="searchForm.to" id="to" type="text" class="form-control">
       </div>
+      <div class="form-group">
+        <button [disabled]="!searchForm().valid()" type="submit" class="btn btn-default">Search</button>
+      </div>
     </form>
-    <div class="form-group">
-      <button (click)="search()" class="btn btn-default">Search</button>
-    </div>
   </div>
 </div>
