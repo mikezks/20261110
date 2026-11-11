@@ -1,17 +1,21 @@
-import { firstValueFrom } from 'rxjs';
 import { DatePipe } from '@angular/common';
-import { HttpClient, httpResource } from '@angular/common/http';
 import { Component, inject, signal } from '@angular/core';
 import { FormField, FormRoot, form } from '@angular/forms/signals';
 import { Flight, FlightFilter, initialFlight } from '../model/flight';
+import { FlightService } from './flight.service';
 
 @Component({
   selector: 'app-flight-search',
   imports: [DatePipe, FormField, FormRoot],
   templateUrl: './flight-search.html',
   styleUrl: './flight-search.scss',
+  providers: [
+    FlightService
+  ]
 })
 export class FlightSearch {
+  protected readonly flightService = inject(FlightService);
+
   protected readonly searchModel = signal({ from: 'Hamburg', to: 'Graz' });
   protected readonly searchForm = form(this.searchModel, {
     submission: { action: async () => this.search() },
@@ -27,17 +31,8 @@ export class FlightSearch {
   });
   protected readonly message = signal('');
   protected readonly saveError = signal('');
-  private readonly http = inject(HttpClient);
-
-  protected readonly flightsResource = httpResource<Flight[]>(
-    () => {
-      const query = this.query();
-      return query
-        ? { url: 'https://demo.angulararchitects.io/api/flight', params: { ...query } }
-        : undefined;
-    },
-    { defaultValue: [] },
-  );
+  
+  protected readonly flightsResource = this.flightService.createFlightResource(this.query);
 
   protected search(): void {
     const from = this.searchModel().from.trim();
@@ -65,9 +60,7 @@ export class FlightSearch {
     this.message.set('');
     this.saveError.set('');
     try {
-      const saved = await firstValueFrom(
-        this.http.post<Flight>('https://demo.angulararchitects.io/api/flight', this.draft()),
-      );
+      const saved = await this.flightService.saveFlightAsPromise(this.draft());
       this.draft.set({ ...saved });
       this.selectedFlight.set(saved);
       if (this.flightsResource.hasValue()) {

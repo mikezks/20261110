@@ -18,3 +18,8 @@ export const initialFlight: Flight = {
   date: '',
   delayed: false,
 };
+
+export const initialFlightFilter: FlightFilter = {
+  from: '',
+  to: '',
+};

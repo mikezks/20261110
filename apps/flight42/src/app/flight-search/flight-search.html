@@ -23,6 +23,13 @@
         >
           Search
         </button>
+        <button
+          class="btn btn-default"
+          (click)="flightService.setName('Sue')"
+        >
+          Update Name
+        </button>
+        <p>Firstname: {{ flightService.firstname }}</p>
       </div>
     </form>
   </div>
