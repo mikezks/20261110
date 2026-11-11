@@ -30,11 +30,6 @@ import { DatePipe } from '@angular/common';
         </div>
       </div>
     </div>
-  `,
-  styles: `
-    .selected {
-      background-color: cadetblue;
-    }
   `
 })
 export class FlightCard {
