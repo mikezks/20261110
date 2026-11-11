@@ -2,15 +2,21 @@ import { CityPipe } from '../shared/pipes/city-pipe';
 import { StatusColorPipe } from '../shared/pipes/status-color-pipe';
 import { StatusFilterPipe } from '../shared/pipes/status-filter-pipe';
 import { firstValueFrom } from 'rxjs';
-import { DatePipe } from '@angular/common';
+import { DatePipe, JsonPipe } from '@angular/common';
 import { FlightService } from './flight-service';
 import { Component, inject, signal } from '@angular/core';
 import { FormField, FormRoot, form } from '@angular/forms/signals';
 import { Flight, FlightFilter, initialFlight } from '../model/flight';
+import { FlightCard } from '../flight-card/flight-card';
 
 @Component({
   selector: 'app-flight-search',
-  imports: [DatePipe, FormField, FormRoot, CityPipe, StatusColorPipe, StatusFilterPipe],
+  imports: [
+    DatePipe, JsonPipe,
+    FormField, FormRoot,
+    CityPipe, StatusColorPipe, StatusFilterPipe,
+    FlightCard
+  ],
   templateUrl: './flight-search.html',
   styleUrl: './flight-search.scss',
 })
@@ -20,6 +26,10 @@ export class FlightSearch {
   protected readonly searchModel = signal({ from: 'Hamburg', to: 'Graz' });
   protected readonly searchForm = form(this.searchModel, {
     submission: { action: async () => this.search() },
+  });
+  protected readonly basket = signal<Record<number, boolean>>({
+    2: true,
+    2740: true,
   });
   protected readonly query = signal<FlightFilter | undefined>(undefined);
   protected readonly selectedFlight = signal<Flight | undefined>(undefined);
@@ -73,5 +83,9 @@ export class FlightSearch {
     } catch {
       this.saveError.set('Error updating the flight. Please try again.');
     }
+  }
+
+  updateBasket(id: number, selected: boolean): void {
+    this.basket.update(curr => ({ ...curr, [id]: selected }));
   }
 }
