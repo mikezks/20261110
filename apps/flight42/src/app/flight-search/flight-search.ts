@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { FormField, FormRoot, form } from '@angular/forms/signals';
 import { Flight, FlightFilter, initialFlight } from '../model/flight';
 import { FlightService } from './flight.service';
@@ -20,6 +20,9 @@ export class FlightSearch {
   protected readonly searchForm = form(this.searchModel, {
     submission: { action: async () => this.search() },
   });
+  protected readonly route = computed(
+    () => 'From ' + this.searchModel().from + ' to ' + this.searchModel().to + '.'
+  , { debugName: 'myFlights' });
   protected readonly query = signal<FlightFilter | undefined>(undefined);
   protected readonly selectedFlight = signal<Flight | undefined>(undefined);
   protected readonly draft = signal<Flight>({ ...initialFlight });
@@ -33,6 +36,22 @@ export class FlightSearch {
   protected readonly saveError = signal('');
   
   protected readonly flightsResource = this.flightService.createFlightResource(this.query);
+
+  constructor() {
+    effect(() => console.log(this.route()));
+
+    console.log(this.searchModel().from);
+    this.searchModel.update(curr => ({ ...curr, from: 'Madrid' }));
+    console.log(this.searchModel().from);
+    this.searchModel.update(curr => ({ ...curr, from: 'Barcelona' }));
+    console.log(this.searchModel().from);
+    this.searchModel.update(curr => ({ ...curr, from: 'Rome' }));
+    console.log(this.searchModel().from);
+    this.searchModel.update(curr => ({ ...curr, from: 'Athens' }));
+    console.log(this.searchModel().from);
+    this.searchModel.update(curr => ({ ...curr, from: 'Oslo' }));
+    console.log(this.searchModel().from);
+  }
 
   protected search(): void {
     const from = this.searchModel().from.trim();
