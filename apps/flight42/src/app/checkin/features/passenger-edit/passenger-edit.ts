@@ -9,6 +9,7 @@ import { form, FormField, FormRoot } from '@angular/forms/signals';
 @Component({
   selector: 'app-passenger-edit',
   imports: [
+    // (4) UI Control: Template Binding
     FormField, FormRoot,
     RouterLink
   ],
@@ -18,19 +19,17 @@ import { form, FormField, FormRoot } from '@angular/forms/signals';
 export class PassengerEdit {
   private readonly passengerService = inject(PassengerService);
   readonly id = input(0, { transform: numberAttribute });
-  protected readonly passengerResource = this.passengerService.findByIdAsResource(this.id);
   
   // (1) Data Model: Writable Signal
-  private readonly passenger = signal(initialPassenger);
+  protected readonly passengerResource = this.passengerService.findByIdAsResource(this.id);
 
   // (2) Field State: valid, dirty, touched, value, errors ...
-  protected readonly editForm = form(this.passenger, {
+  protected readonly editForm = form(this.passengerResource.value, {
     submission: { action: async () => this.save() }
   });
 
   protected save(): void {
     console.log({
-      dataModel: this.passenger(),
       form: this.editForm().value(),
       resource: this.passengerResource.value()
     });
