@@ -21,6 +21,11 @@
             [formField]="editForm.name"
           />
         </div>
+        @for (error of editForm.name().errors(); track error.kind) {
+          <div class="alert alert-danger">
+            {{ error.message }}
+          </div>
+        }
         <div class="form-group">
           <label for="passenger-bonusMiles">Bonus miles</label>
           <input id="passenger-bonusMiles" type="number" class="form-control" [formField]="editForm.bonusMiles" />
