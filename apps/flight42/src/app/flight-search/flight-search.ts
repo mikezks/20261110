@@ -4,10 +4,15 @@ import { FlightService } from './flight-service';
 import { Component, inject, signal } from '@angular/core';
 import { FormField, FormRoot, form } from '@angular/forms/signals';
 import { Flight, FlightFilter, initialFlight } from '../model/flight';
+import { CityPipe } from '../shared/city-pipe';
 
 @Component({
   selector: 'app-flight-search',
-  imports: [DatePipe, FormField, FormRoot],
+  imports: [
+    DatePipe,
+    CityPipe,
+    FormField, FormRoot
+  ],
   templateUrl: './flight-search.html',
   styleUrl: './flight-search.scss',
 })
