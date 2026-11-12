@@ -4,7 +4,7 @@ import { FlightEdit } from "../features/flight-edit/flight-edit";
 
 export const bookingRoutes: Routes = [
   {
-    path: 'booking',
+    path: '',
     children: [
       {
         path: '',
@@ -31,4 +31,6 @@ export const bookingRoutes: Routes = [
       }
     ]
   }
-]
+];
+
+export default bookingRoutes;

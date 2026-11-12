@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { Home } from './core/home/home';
-import { bookingRoutes } from './booking/routes/booking.routes';
 
 export const appRoutes: Routes = [
   {
@@ -12,7 +11,10 @@ export const appRoutes: Routes = [
     path: 'home',
     component: Home
   },
-  ...bookingRoutes,
+  {
+    path: 'booking',
+    loadChildren: () => import('./booking/routes/booking.routes')
+  },
   {
     path: '**',
     redirectTo: '/home'
