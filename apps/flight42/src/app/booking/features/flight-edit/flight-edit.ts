@@ -1,7 +1,7 @@
 import { firstValueFrom } from 'rxjs';
 import { flightSchema } from '../../../shared/validation/flight-schema';
 import { ValidationErrors } from '../../../shared/validation-errors/validation-errors';
-import { Component, inject, model, output, signal } from '@angular/core';
+import { Component, inject, input, model, numberAttribute, output, signal } from '@angular/core';
 import { FormField, FormRoot, form } from '@angular/forms/signals';
 import { Flight, initialFlight } from '../../model/flight';
 import { FlightService } from '../../data-access/flight-service';
@@ -14,6 +14,7 @@ import { FlightService } from '../../data-access/flight-service';
 })
 export class FlightEdit {
   private readonly flightService = inject(FlightService);
+  readonly id = input(0, { transform: numberAttribute });
   readonly flight = model<Flight>({ ...initialFlight });
   readonly saved = output<Flight>();
   readonly cancelled = output<void>();

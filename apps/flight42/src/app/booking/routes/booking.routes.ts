@@ -1,5 +1,6 @@
 import { Routes } from "@angular/router";
 import { FlightSearch } from "../features/flight-search/flight-search";
+import { FlightEdit } from "../features/flight-edit/flight-edit";
 
 export const bookingRoutes: Routes = [
   {
@@ -21,6 +22,10 @@ export const bookingRoutes: Routes = [
           {
             path: 'search',
             component: FlightSearch
+          },
+          {
+            path: 'edit/:id',
+            component: FlightEdit
           }
         ]
       }

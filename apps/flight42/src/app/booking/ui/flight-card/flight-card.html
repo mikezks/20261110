@@ -29,7 +29,10 @@
     <button type="button" class="btn btn-default" (click)="delayTrigger.emit(item())">
       Delay 5 minutes
     </button>
-    <button type="button" class="btn btn-default" (click)="editTrigger.emit(item())">Edit</button>
+    <a
+      [routerLink]="['../edit', item().id]"
+      class="btn btn-default"
+    >Edit</a>
     <app-status-toggle [(status)]="showDetails" />
   </div>
 </div>

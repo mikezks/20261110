@@ -4,10 +4,14 @@ import { StatusColorPipe } from '../../../shared/pipes/status-color-pipe';
 import { Component, input, model, output, signal } from '@angular/core';
 import { Flight } from '../../model/flight';
 import { StatusToggle } from '../status-toggle/status-toggle';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-flight-card',
-  imports: [StatusToggle, DatePipe, CityPipe, StatusColorPipe],
+  imports: [
+    StatusToggle, DatePipe, CityPipe, StatusColorPipe,
+    RouterLink
+  ],
   templateUrl: './flight-card.html',
   styleUrl: './flight-card.scss',
 })
