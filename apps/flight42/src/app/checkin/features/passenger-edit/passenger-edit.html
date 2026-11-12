@@ -4,31 +4,36 @@
     @if (passengerResource.isLoading()) { <p role="status">Loading passenger…</p> }
     @if (passengerResource.error()) { <p class="alert alert-danger" role="alert">The passenger could not be loaded. Try Reload.</p> }
     @if (!passengerResource.isLoading() && !passengerResource.error() && passengerResource.hasValue()) {
-      <form [formGroup]="editForm" (ngSubmit)="save()" aria-label="Passenger Edit">
+      <form [formRoot]="editForm" aria-label="Passenger Edit">
         <div class="form-group">
           <label for="passenger-id">ID</label>
-          <input id="passenger-id" type="number" class="form-control" formControlName="id" />
+          <input id="passenger-id" type="number" class="form-control" [formField]="editForm.id" />
         </div>
         <div class="form-group">
           <label for="passenger-firstName">First name</label>
-          <input id="passenger-firstName" type="text" class="form-control" formControlName="firstName" />
+          <input id="passenger-firstName" type="text" class="form-control" [formField]="editForm.firstName" />
         </div>
         <div class="form-group">
           <label for="passenger-name">Last name</label>
-          <input id="passenger-name" type="text" class="form-control" formControlName="name" />
+          <input
+            id="passenger-name"
+            type="text" class="form-control"
+            [formField]="editForm.name"
+          />
         </div>
         <div class="form-group">
           <label for="passenger-bonusMiles">Bonus miles</label>
-          <input id="passenger-bonusMiles" type="number" class="form-control" formControlName="bonusMiles" />
+          <input id="passenger-bonusMiles" type="number" class="form-control" [formField]="editForm.bonusMiles" />
         </div>
         <div class="form-group">
           <label for="passenger-passengerStatus">Status</label>
-          <input id="passenger-passengerStatus" type="text" class="form-control" formControlName="passengerStatus" />
+          <input id="passenger-passengerStatus" type="text" class="form-control" [formField]="editForm.passengerStatus" />
         </div>
-        @if (editForm.controls.passengerStatus.hasError('passengerStatus')) {
-          <p class="alert alert-danger" role="alert">Please enter passenger status A, B or C.</p>
-        }
-        <button type="submit" class="btn btn-default" [disabled]="editForm.invalid">Save</button>
+        <button
+          type="submit"
+          class="btn btn-default"
+          [disabled]="!editForm().valid()"
+        >Save</button>
       </form>
     }
     <div class="form-group">
