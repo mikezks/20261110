@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { Home } from './core/home/home';
-import { FlightSearch } from './booking/features/flight-search/flight-search';
+import { bookingRoutes } from './booking/routes/booking.routes';
 
 export const appRoutes: Routes = [
   {
@@ -12,10 +12,7 @@ export const appRoutes: Routes = [
     path: 'home',
     component: Home
   },
-  {
-    path: 'flight-search',
-    component: FlightSearch
-  },
+  ...bookingRoutes,
   {
     path: '**',
     redirectTo: '/home'
