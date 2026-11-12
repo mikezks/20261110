@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
-import { FlightSearch } from './booking/features/flight-search/flight-search';
 import { Headerbar } from './core/headerbar/headerbar';
 import { Sidebar } from './core/sidebar/sidebar';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [Headerbar, Sidebar, FlightSearch],
+  imports: [
+    Headerbar, Sidebar,
+    RouterOutlet
+  ],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
